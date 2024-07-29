@@ -39,20 +39,31 @@ public class Order {
         this.germanBeers = germanBeersIn;
     }
 
+    // Interesting note to self: public getters are necessary here for the object instance being created in the API
+    // controller, because the private keyword in Java is enforced during and after compile-time while in TypeScript,
+    // the private keyword is only enforced at compile-time, but not after, so the private members could be accessed
+    // without get methods in the class. Important distinction for two different OOP languages. It is worth noting
+    // because I plan to use TypeScript to develop a web-based frontend. Ignore the "no usages" warnings for these
+    // methods.
+
+    public int[] getBread() {
+        return this.bread;
+    }
+
     public int getGermanBeers() {
-        return germanBeers;
+        return this.germanBeers;
     }
 
     public int getDutchBeers() {
-        return dutchBeers;
+        return this.dutchBeers;
     }
 
     public int getBelgianBeers() {
-        return belgianBeers;
+        return this.belgianBeers;
     }
 
     public float getVegetables() {
-        return vegetables;
+        return this.vegetables;
     }
 }
 
