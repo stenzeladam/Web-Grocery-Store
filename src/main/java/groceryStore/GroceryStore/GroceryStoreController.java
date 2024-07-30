@@ -13,8 +13,17 @@ public class GroceryStoreController {
         return "Test message";
     }
 
+    @PostMapping("/set_Prices")
+    private static Prices setPrices(@RequestBody Prices newPrices) {
+        Prices.setInstance(newPrices.getBREAD_PRICE(), newPrices.getVEGETABLES_PRICE(),
+                    newPrices.getBELGIAN_BEERS_PRICE(), newPrices.getDUTCH_BEERS_PRICE(),
+                    newPrices.getGERMAN_BEERS_PRICE());
+        return Prices.getInstance();
+    }
+
     @PostMapping("/send_order")
-    public Order createOrder(@RequestBody Order newOrder) {
+    private Order createOrder(@RequestBody Order newOrder) {
+        newOrder.evaluateOrder(); // determine if discounts apply, and automatically apply any discounts that do apply
         System.out.println(newOrder);
         return newOrder;
     }

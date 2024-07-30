@@ -12,6 +12,9 @@ import java.util.logging.Logger;
 // 4) Create a get method in the Order class so that the member can be accessed from the JSON body in the controller
 // 5) Update the Prices class to have member variable for the price of the product, and update the parameters for the
 //    constructors, the getInstance methods, and get method for that variable.
+// 6) Update the setPrices method in GroceryStoreController and call it to update the single Prices object instance to
+//    include the new product. Also need to update the JSON body from the frontend (and the relevant FE interface) being
+//    sent to setPrices to match the updated Prices member variable(s).
 
 public class Order {
 
@@ -48,6 +51,14 @@ public class Order {
         this.belgianBeers = belgianBeersIn;
         this.dutchBeers = dutchBeersIn;
         this.germanBeers = germanBeersIn;
+    }
+
+    // Method that evaluates this Order object to determine if any discounts apply. Calls methods to apply discounts
+    // when specific discounts are applicable. Edit this method to alter the rules for when discounts apply.
+
+    public void evaluateOrder() {
+        // checking vegetables for discounts
+
     }
 
     // Interesting note to self: public getters are necessary here for the object instance being created in the API
