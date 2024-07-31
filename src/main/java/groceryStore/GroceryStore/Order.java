@@ -1,5 +1,6 @@
 package groceryStore.GroceryStore;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 //    include the new product. Also need to update the JSON body from the frontend (and the relevant FE interface) being
 //    sent to setPrices to match the updated Prices member variable(s).
 
-@SuppressWarnings({"unused", "SameParameterValue"})
+@SuppressWarnings({"unused"})
 public class Order {
 
     private int[] bread = new int[7]; // each index will represent the age of the bread in days
@@ -25,7 +26,6 @@ public class Order {
     private final int belgianBeers; // quantity of Belgian beers in bottles
     private final int dutchBeers; // quantity of Dutch beers in bottles
     private final int germanBeers; // quantity of German beers in bottles
-    private double subTotal = 0; //Order subtotal
 
     private static final Logger LOGGER = Logger.getLogger(Order.class.getName());
 
@@ -59,42 +59,58 @@ public class Order {
     // Method that evaluates this Order object to determine if any discounts apply. Calls methods to apply discounts
     // when specific discounts are applicable. Edit this method to alter the rules for when discounts apply.
 
-    public void evaluateOrder() {
+    public ArrayList<Item> evaluateOrder() {
 
-        double vegTotalPrice = 0;
-        double beerTotalPrice = 0;
-        double breadTotalPrice = 0;
         Prices priceInstance = Prices.getInstance();
+        ArrayList<Item> Receipt = new ArrayList<>();
 
-        // evaluateVeg uses a wrapper class Double for inputs, so passed by reference
-        this.evaluateVeg(vegTotalPrice, priceInstance.getVEGETABLES_PRICE());
-        // uses a wrapper class as well, beerTotalPrice is passed by reference.
-        this.evaluateBeers(beerTotalPrice, priceInstance.getBELGIAN_BEERS_PRICE(), priceInstance.getDUTCH_BEERS_PRICE(),
-                priceInstance.getGERMAN_BEERS_PRICE());
-        // Wrapper class, breadTotalPrice passed by reference.
-        this.evaluateBread(breadTotalPrice, priceInstance.getBREAD_PRICE());
+        // No need to add vegetables to the receipt if none are on order
+        if (this.vegetables > 0) {
+            Item vegetables = this.evaluateVeg();
+            Receipt.add(vegetables);
+        }
 
-        setSubTotal(vegTotalPrice + beerTotalPrice + breadTotalPrice);
+        // No need to evaluate the beers if there are none on order
+        if (this.germanBeers > 0 || this.belgianBeers > 0 || this.dutchBeers > 0) {
+            Receipt.addAll(this.evaluateBeers());
+        }
+
+        // TODO: Implement evaluate Bread and add to the Receipt
+        this.evaluateBread();
+
+        double localSubtotal = 0.0;
+        for (Item tempItem : Receipt) {
+            localSubtotal = localSubtotal + tempItem.getTotalItemPrice();
+        }
+        Item.setSubtotal(localSubtotal); // set the subtotal
+
+        return Receipt;
     }
 
-    private void evaluateVeg(@SuppressWarnings("ParameterCanBeLocal") Double vegTotalPrice, double price) {
-        // checking vegetables for discounts. Adding one decimal place everywhere to make it clear these are doubles
-        if (this.vegetables < 100.0 && this.vegetables >= 0.0) { // apply 5% off
-            vegTotalPrice = applyPercentOffDiscount(5.0, price);
+    private Item evaluateVeg() {
+        // Checks vegetables for discounts. Adding one decimal place everywhere to make it clear values are doubles
+        double vegPrice = Prices.getInstance().getVEGETABLES_PRICE();
+        double vegTotalPrice = 0.0;
+        String discountRule = "";
+        if (this.vegetables < 100.0 && this.vegetables > 0.0) { // apply 5% off
+            vegTotalPrice = applyPercentOffDiscount(5.0, vegPrice);
+            discountRule = "Between 0.0 and 100.0 grams: 5% Off";
         }
         else if (this.vegetables >= 100.0 && this.vegetables < 500.0) { // apply 7% off
-            vegTotalPrice = applyPercentOffDiscount(7.0, price);
+            vegTotalPrice = applyPercentOffDiscount(7.0, vegPrice);
+            discountRule = "Between 100.0 and 500.0 grams: 7% Off";
         }
         else if (this.vegetables >= 500.0) { // apply 10% off
-            vegTotalPrice = applyPercentOffDiscount(10.0, price);
+            vegTotalPrice = applyPercentOffDiscount(10.0, vegPrice);
+            discountRule = "Over 500.0 grams: 10% Off";
         }
         else if (this.vegetables < 0.0) { // Should never happen, but just in case. Maybe for potential returns in the future
             vegTotalPrice = 0.0;
         }
+        return new Item(this.vegetables, "Vegetables", discountRule, vegPrice, vegTotalPrice);
     }
 
-    @SuppressWarnings("ParameterCanBeLocal")
-    private void evaluateBeers(Double beerTotalPrice, double belgianBeerPrice, double dutchBeerPrice, double germanBeerPrice) {
+    private ArrayList<Item> evaluateBeers() {
         // Take the quantity of each beer and perform integer division by 6 to determine how many 6-packs for each beer.
         // The sum of (n + k) times (a/b), where k = 0, ... , i-1, i, is the same as
         // (n+0)(a/b) + ... + (n+(i-1))(a/b) + (n+1)(a/b) where a and b are integers, and b is not equal to 0.
@@ -109,39 +125,63 @@ public class Order {
         // a 6 pack of German beer would be 4.00 EUR while 6 individual bottles would only be 3.00 EUR, so that'd be a
         // markup and not make much sense.
 
+        ArrayList<Item> beerReceipt = new ArrayList<>();
+        int n = 6; // set the number of bottles to define a pack
+
         double DutchBottlePrice = Prices.getInstance().getDUTCH_BEERS_PRICE();
-        double DutchSixPackDiscount = (1.0/3.0); // ~33.3333...%
-        double DutchBeerTotal = beerType_n_Packs(6, this.dutchBeers, DutchSixPackDiscount, DutchBottlePrice);
+        double Dutch_n_PackDiscount = 33.3333; // ~33.3333...%
+
+        // No need to add item to receipt if not on order
+        if (this.dutchBeers > 0) {
+            beerReceipt.addAll(addBeerTypeToReceipt(n, this.dutchBeers, "Dutch", DutchBottlePrice, Dutch_n_PackDiscount));
+        }
 
         double BelgianBottlePrice = Prices.getInstance().getBELGIAN_BEERS_PRICE();
-        double BelgianSixPackDiscount = (1.0/3.0); // ~33.3333...%
-        double BelgianBeerTotal = beerType_n_Packs(6, this.belgianBeers, BelgianSixPackDiscount, BelgianBottlePrice);
+        double Belgian_n_PackDiscount = 33.3333; // ~33.3333...%
+
+        if (this.belgianBeers > 0) {
+            beerReceipt.addAll(addBeerTypeToReceipt(n, this.belgianBeers, "Belgian", BelgianBottlePrice, Belgian_n_PackDiscount));
+        }
 
         double GermanBottlePrice = Prices.getInstance().getGERMAN_BEERS_PRICE();
-        double GermanSixPackDiscount = (1.0/3.0); // ~33.3333...%
-        double GermanBeerTotal = beerType_n_Packs(6, this.germanBeers, GermanSixPackDiscount, GermanBottlePrice);
+        double German_n_PackDiscount = 33.3333; // ~33.3333...%
 
-        beerTotalPrice = DutchBeerTotal + BelgianBeerTotal + GermanBeerTotal;
+        if (this.germanBeers > 0) {
+            beerReceipt.addAll(addBeerTypeToReceipt(n, this.germanBeers, "German", GermanBottlePrice, German_n_PackDiscount));
+        }
+
+        return beerReceipt;
     }
 
-    // Examples: For a 6-pack, let n = 6. For Dutch beer, let beerType = this.dutchBeers.
-    private double beerType_n_Packs(int n, int beerType, double packDiscount, double bottlePrice) {
-        int nPacks = beerType / n; // the number of n-packs of beer for the given beer type
-        int singleBottles = beerType % n; // the number of individual bottles for the given beer type
-        double total = 0.0;
+    private ArrayList<Item> addBeerTypeToReceipt(int n, int beerType, String beerName, double bottlePrice, double packDiscount) {
 
-        total = nPacks * (n * applyPercentOffDiscount(packDiscount, bottlePrice)); // add the prices of n-packs
-        total = total + (singleBottles * bottlePrice); // add the prices of individual bottles
+        ArrayList<Item> localList = new ArrayList<>();
+        int numOfPacks = beerType / n;
+        int numOfSingleBottles = beerType % n;
 
-        return total;
+        if (numOfPacks > 0) {
+            String localItemName = n + "-Pack of " + beerName + " Beer";
+            String discountRule = n + "-Pack of Beer";
+            double localPackPrice = applyPercentOffDiscount(packDiscount, bottlePrice * n);
+            Item beerPack = new Item(numOfPacks, localItemName, discountRule, localPackPrice, localPackPrice * numOfPacks);
+            localList.add(beerPack);
+        }
+        if (numOfSingleBottles > 0) {
+            String localItemName = beerName + " Beer Bottle";
+            String discountRule = "";
+            Item beerBottles = new Item(numOfSingleBottles, localItemName, discountRule, bottlePrice, bottlePrice * numOfSingleBottles);
+            localList.add(beerBottles);
+        }
+
+        return localList;
     }
 
-    private void evaluateBread(Double breadTotalPrice, double price) {
+    private void evaluateBread() {
         //TODO: implement bread discounts
     }
 
     private double applyPercentOffDiscount(double percentOff, double itemPrice) {
-        double complementaryPercentage = (1.0 - percentOff);
+        double complementaryPercentage = (1.0 - (percentOff / 100.0));
         return itemPrice * complementaryPercentage;
     }
 
@@ -170,14 +210,6 @@ public class Order {
 
     public double getVegetables() {
         return this.vegetables;
-    }
-
-    public double getSubTotal() {
-        return this.subTotal;
-    }
-
-    private void setSubTotal(double value) {
-        this.subTotal = value;
     }
 }
 
