@@ -16,14 +16,17 @@ import java.util.logging.Logger;
 //    include the new product. Also need to update the JSON body from the frontend (and the relevant FE interface) being
 //    sent to setPrices to match the updated Prices member variable(s).
 
+@SuppressWarnings({"unused", "SameParameterValue"})
 public class Order {
 
     private int[] bread = new int[7]; // each index will represent the age of the bread in days
     // Example: { 1, 0, 0, 2, 0, 0, 0 } means a quantity of 1 bread that is 0 days old, and 2 breads that are 3 days old
-    private final float vegetables; // quantity of vegetables in grams
+    private final double vegetables; // quantity of vegetables in grams
     private final int belgianBeers; // quantity of Belgian beers in bottles
     private final int dutchBeers; // quantity of Dutch beers in bottles
     private final int germanBeers; // quantity of German beers in bottles
+    private double subTotal = 0; //Order subtotal
+
     private static final Logger LOGGER = Logger.getLogger(Order.class.getName());
 
     public Order() { //No-Argument Constructor
@@ -35,7 +38,7 @@ public class Order {
         this.germanBeers = 0;
     }
 
-    public Order(int[] breadIn, float vegetablesIn, int belgianBeersIn, int germanBeersIn, int dutchBeersIn) {
+    public Order(int[] breadIn, double vegetablesIn, int belgianBeersIn, int germanBeersIn, int dutchBeersIn) {
         try {
             if (breadIn.length == this.bread.length) { // ensure the arrays are the same size
                 this.bread = breadIn;
@@ -57,8 +60,89 @@ public class Order {
     // when specific discounts are applicable. Edit this method to alter the rules for when discounts apply.
 
     public void evaluateOrder() {
-        // checking vegetables for discounts
 
+        double vegTotalPrice = 0;
+        double beerTotalPrice = 0;
+        double breadTotalPrice = 0;
+        Prices priceInstance = Prices.getInstance();
+
+        // evaluateVeg uses a wrapper class Double for inputs, so passed by reference
+        this.evaluateVeg(vegTotalPrice, priceInstance.getVEGETABLES_PRICE());
+        // uses a wrapper class as well, beerTotalPrice is passed by reference.
+        this.evaluateBeers(beerTotalPrice, priceInstance.getBELGIAN_BEERS_PRICE(), priceInstance.getDUTCH_BEERS_PRICE(),
+                priceInstance.getGERMAN_BEERS_PRICE());
+        // Wrapper class, breadTotalPrice passed by reference.
+        this.evaluateBread(breadTotalPrice, priceInstance.getBREAD_PRICE());
+
+        setSubTotal(vegTotalPrice + beerTotalPrice + breadTotalPrice);
+    }
+
+    private void evaluateVeg(@SuppressWarnings("ParameterCanBeLocal") Double vegTotalPrice, double price) {
+        // checking vegetables for discounts. Adding one decimal place everywhere to make it clear these are doubles
+        if (this.vegetables < 100.0 && this.vegetables >= 0.0) { // apply 5% off
+            vegTotalPrice = applyPercentOffDiscount(5.0, price);
+        }
+        else if (this.vegetables >= 100.0 && this.vegetables < 500.0) { // apply 7% off
+            vegTotalPrice = applyPercentOffDiscount(7.0, price);
+        }
+        else if (this.vegetables >= 500.0) { // apply 10% off
+            vegTotalPrice = applyPercentOffDiscount(10.0, price);
+        }
+        else if (this.vegetables < 0.0) { // Should never happen, but just in case. Maybe for potential returns in the future
+            vegTotalPrice = 0.0;
+        }
+    }
+
+    @SuppressWarnings("ParameterCanBeLocal")
+    private void evaluateBeers(Double beerTotalPrice, double belgianBeerPrice, double dutchBeerPrice, double germanBeerPrice) {
+        // Take the quantity of each beer and perform integer division by 6 to determine how many 6-packs for each beer.
+        // The sum of (n + k) times (a/b), where k = 0, ... , i-1, i, is the same as
+        // (n+0)(a/b) + ... + (n+(i-1))(a/b) + (n+1)(a/b) where a and b are integers, and b is not equal to 0.
+        // This is relevant because adding up the sum of 6 discounted beer bottles will be the same as discounting
+        // the sum of 6 beer bottles.
+
+        // Per the example given in the assignment:
+        // If a Dutch beer is 0.50 EUR per bottle, and a 6 pack of Dutch beers is 2.00 EUR, that means a 6 pack of Dutch
+        // beer has a 33.3333% off discount. If 6 packs of Belgian and German beers are 3.00 EUR and 4.00 EUR respectively,
+        // then to maintain the same 33.3333% off discount for 6 packs, the default individual bottle price for Belgian
+        // and German beer bottles should be 0.75 EUR and 1.00 EUR respectively. Otherwise, if all bottles are 0.50 EUR
+        // a 6 pack of German beer would be 4.00 EUR while 6 individual bottles would only be 3.00 EUR, so that'd be a
+        // markup and not make much sense.
+
+        double DutchBottlePrice = Prices.getInstance().getDUTCH_BEERS_PRICE();
+        double DutchSixPackDiscount = (1.0/3.0); // ~33.3333...%
+        double DutchBeerTotal = beerType_n_Packs(6, this.dutchBeers, DutchSixPackDiscount, DutchBottlePrice);
+
+        double BelgianBottlePrice = Prices.getInstance().getBELGIAN_BEERS_PRICE();
+        double BelgianSixPackDiscount = (1.0/3.0); // ~33.3333...%
+        double BelgianBeerTotal = beerType_n_Packs(6, this.belgianBeers, BelgianSixPackDiscount, BelgianBottlePrice);
+
+        double GermanBottlePrice = Prices.getInstance().getGERMAN_BEERS_PRICE();
+        double GermanSixPackDiscount = (1.0/3.0); // ~33.3333...%
+        double GermanBeerTotal = beerType_n_Packs(6, this.germanBeers, GermanSixPackDiscount, GermanBottlePrice);
+
+        beerTotalPrice = DutchBeerTotal + BelgianBeerTotal + GermanBeerTotal;
+    }
+
+    // Examples: For a 6-pack, let n = 6. For Dutch beer, let beerType = this.dutchBeers.
+    private double beerType_n_Packs(int n, int beerType, double packDiscount, double bottlePrice) {
+        int nPacks = beerType / n; // the number of n-packs of beer for the given beer type
+        int singleBottles = beerType % n; // the number of individual bottles for the given beer type
+        double total = 0.0;
+
+        total = nPacks * (n * applyPercentOffDiscount(packDiscount, bottlePrice)); // add the prices of n-packs
+        total = total + (singleBottles * bottlePrice); // add the prices of individual bottles
+
+        return total;
+    }
+
+    private void evaluateBread(Double breadTotalPrice, double price) {
+        //TODO: implement bread discounts
+    }
+
+    private double applyPercentOffDiscount(double percentOff, double itemPrice) {
+        double complementaryPercentage = (1.0 - percentOff);
+        return itemPrice * complementaryPercentage;
     }
 
     // Interesting note to self: public getters are necessary here for the object instance being created in the API
@@ -84,8 +168,16 @@ public class Order {
         return this.belgianBeers;
     }
 
-    public float getVegetables() {
+    public double getVegetables() {
         return this.vegetables;
+    }
+
+    public double getSubTotal() {
+        return this.subTotal;
+    }
+
+    private void setSubTotal(double value) {
+        this.subTotal = value;
     }
 }
 

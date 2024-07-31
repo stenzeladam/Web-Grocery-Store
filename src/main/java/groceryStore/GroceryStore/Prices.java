@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
+@SuppressWarnings("FieldMayBeFinal")
 public class Prices {
 
     // Prices will be a singleton class as there should only ever be
@@ -45,6 +46,7 @@ public class Prices {
     }
 
     // No-Argument setInstance method will use the No-Argument Constructor
+    @SuppressWarnings("unused")
     public static void setInstance() {
         if (single_instance == null) {
             synchronized (Prices.class) {
