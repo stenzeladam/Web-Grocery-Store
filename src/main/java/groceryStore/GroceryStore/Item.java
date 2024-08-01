@@ -1,5 +1,9 @@
 package groceryStore.GroceryStore;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 @SuppressWarnings("unused")
 public class Item {
 
@@ -8,14 +12,15 @@ public class Item {
     private final String discountRule;
     private final double unitPrice;
     private final double totalItemPrice;
-    private static double subtotal; // Static so that the subtotal will be the same for all Item instances
+
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     Item(double quantity, String itemName, String discountRule, double unitPrice, double totalItemPrice) {
         this.quantity = quantity;
         this.itemName = itemName;
         this.discountRule = discountRule;
-        this. unitPrice = unitPrice;
-        this.totalItemPrice = totalItemPrice;
+        this.unitPrice = roundToTwoDecimals(unitPrice);
+        this.totalItemPrice = roundToTwoDecimals(totalItemPrice);
     }
 
     public double getQuantity() {
@@ -30,6 +35,14 @@ public class Item {
         return this.discountRule;
     }
 
+    public String getFormattedUnitPrice() {
+        return df.format(this.unitPrice);
+    }
+
+    public String getFormattedTotalItemPrice() {
+        return df.format(this.totalItemPrice);
+    }
+
     public double getUnitPrice() {
         return this.unitPrice;
     }
@@ -38,11 +51,20 @@ public class Item {
         return this.totalItemPrice;
     }
 
-    public static void setSubtotal(double input) {
-        subtotal = input;
+    private double roundToTwoDecimals(double value) {
+        return BigDecimal.valueOf(value)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 
-    public static double getSubtotal() {
-        return subtotal;
+    @Override
+    public String toString() {
+        return "Item{" +
+                "quantity=" + quantity +
+                ", itemName='" + itemName + '\'' +
+                ", discountRule='" + discountRule + '\'' +
+                ", unitPrice=" + getFormattedUnitPrice() +
+                ", totalItemPrice=" + getFormattedTotalItemPrice() +
+                '}';
     }
 }

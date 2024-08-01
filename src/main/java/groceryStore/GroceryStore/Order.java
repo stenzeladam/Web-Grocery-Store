@@ -38,7 +38,7 @@ public class Order {
         this.germanBeers = 0;
     }
 
-    public Order(int[] breadIn, double vegetablesIn, int belgianBeersIn, int germanBeersIn, int dutchBeersIn) {
+    public Order(int[] breadIn, double vegetablesIn, int belgianBeersIn, int dutchBeersIn, int germanBeersIn) {
         try {
             if (breadIn.length == this.bread.length) { // ensure the arrays are the same size
                 this.bread = breadIn;
@@ -82,7 +82,9 @@ public class Order {
         for (Item tempItem : Receipt) {
             localSubtotal = localSubtotal + tempItem.getTotalItemPrice();
         }
-        Item.setSubtotal(localSubtotal); // set the subtotal
+        //Item.setSubtotal(localSubtotal); // set the subtotal
+        Item SubTotal = new Item(1, "Subtotal", "", -1, localSubtotal);
+        Receipt.add(SubTotal);
 
         return Receipt;
     }

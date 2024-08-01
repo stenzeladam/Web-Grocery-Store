@@ -1,13 +1,15 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 
 interface DutchBeerProps {
   onChange: (value: number | null) => void;
+  reset: boolean;
+  resetComplete: () => void;
 }
 
-const DutchBeerInput: React.FC<DutchBeerProps> = ({ onChange }) => {
+const DutchBeerInput: React.FC<DutchBeerProps> = ({ onChange, reset, resetComplete }) => {
   const [value, setValue] = useState<number | null>(null);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -20,6 +22,14 @@ const DutchBeerInput: React.FC<DutchBeerProps> = ({ onChange }) => {
     onChange(numericValue);
   };
 
+  useEffect(() => {
+    if (reset) {
+      setValue(null);
+      onChange(null);
+      resetComplete();
+    }
+  }, [reset, onChange, resetComplete]);
+  
   return (
     <Box component="form" noValidate autoComplete="off">
       <div>

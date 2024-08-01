@@ -6,3 +6,9 @@
 .input-container {
   margin: 20px 0;
 }
+
+.submit-button {
+  margin-top: 20px; 
+  display: flex; 
+  justify-content: center; 
+}
