@@ -9,6 +9,12 @@
 
 .submit-button {
   margin-top: 20px; 
+  margin-bottom: 20px;
   display: flex; 
   justify-content: center; 
+}
+
+.table-head-dark {
+  background-color: #dddddd; 
+  color: #fff; 
 }

@@ -40,7 +40,6 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ veg, belgianBeer, dutchBeer
 
         try {
             const orderResponse = await axios.post('http://localhost:8080/send_order', orderData);
-            console.log('Order success:', orderResponse.data);
             onOrderResponse(orderResponse.data);
         } catch (error) {
             console.error('Error submitting order:', error);
@@ -58,6 +57,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ veg, belgianBeer, dutchBeer
         };
 
         try {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const response = await axios.post('http://localhost:8080/set_Prices', priceData);
             //console.log('Price data success:', response.data);
             return true;
@@ -71,6 +71,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ veg, belgianBeer, dutchBeer
     <Stack>
         <Button 
             onClick={handleSubmit}
+            color='success'
             variant="outlined"
             disabled={isDisabled}>
             Submit Order

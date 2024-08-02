@@ -95,15 +95,16 @@ public class Order {
         double vegTotalPrice = 0.0;
         String discountRule = "";
         if (this.vegetables < 100.0 && this.vegetables > 0.0) { // apply 5% off
-            vegTotalPrice = applyPercentOffDiscount(5.0, vegPrice);
+            // Discount price is divided by 100 because the price is per 100g, and this.vegetables is per ~1.0 gram.
+            vegTotalPrice = this.vegetables * (applyPercentOffDiscount(5.0, vegPrice) / 100);
             discountRule = "Between 0.0 and 100.0 grams: 5% Off";
         }
         else if (this.vegetables >= 100.0 && this.vegetables < 500.0) { // apply 7% off
-            vegTotalPrice = applyPercentOffDiscount(7.0, vegPrice);
+            vegTotalPrice = this.vegetables * (applyPercentOffDiscount(7.0, vegPrice) / 100);
             discountRule = "Between 100.0 and 500.0 grams: 7% Off";
         }
         else if (this.vegetables >= 500.0) { // apply 10% off
-            vegTotalPrice = applyPercentOffDiscount(10.0, vegPrice);
+            vegTotalPrice = this.vegetables * (applyPercentOffDiscount(10.0, vegPrice) / 100);
             discountRule = "Over 500.0 grams: 10% Off";
         }
         else if (this.vegetables < 0.0) { // Should never happen, but just in case. Maybe for potential returns in the future
