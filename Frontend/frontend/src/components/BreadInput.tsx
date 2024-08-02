@@ -10,7 +10,6 @@ interface BreadInputProps {
   resetComplete: () => void;
 }
 
-
 const BreadInput: React.FC<BreadInputProps> = ({ onChange, reset, resetComplete }) => {
     const [localBreadCount, setLocalBreadCount] = useState<(number | null)[]>(Array(7).fill(null));
     
@@ -25,10 +24,6 @@ const BreadInput: React.FC<BreadInputProps> = ({ onChange, reset, resetComplete 
         setLocalBreadCount(newValues);
         onChange(newValues);        
     };
-
-    // useEffect(() => {
-    //     console.log("localBreadCount: ", localBreadCount);
-    // },[localBreadCount])
 
     useEffect(() => {
         if (reset) {

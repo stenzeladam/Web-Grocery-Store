@@ -19,21 +19,9 @@ const App: React.FC = () => {
   const [orderResponseData, setOrderResponseData] = useState<any>(null);
   const [reset, setReset] = useState<boolean>(false);
 
-  // const handleBreadChange = (input: (number | null)[]) => {
-  //   const updatedInput = input.slice(0, 7);
-  //   while (updatedInput.length < 7) {
-  //     updatedInput.push(null);
-  //   }
-  //   setBreadCounts(updatedInput);
-  // }
-
   const handleBreadChange = (input: (number | null)[]) => {
     setBreadCounts(input)
   }
-
-  // React.useEffect(() => {
-  //       console.log("breadCounts: ", breadCounts);
-  //   },[breadCounts])
 
   const handleVegetablesChange = (value: number | null) => {
     setVegValue(value);
