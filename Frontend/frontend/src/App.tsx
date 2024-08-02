@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import BreadInput from './components/BreadInput';
 import Vegetables from './components/Vegetables'
 import BelgianBeerInput from './components/BelgianBeer';
 import DutchBeerInput from './components/DutchBeer';
@@ -10,12 +11,29 @@ import './App.css';
 
 const App: React.FC = () => {
   
+  const [breadCounts, setBreadCounts] = useState<(number | null)[]>(Array(7).fill(null));
   const [vegValue, setVegValue] = useState<number | null>(null);
   const [BelgianBeerValue, setBelgianBeerValue] = useState<number | null>(null);
   const [DutchBeerValue, setDutchBeerValue] = useState<number | null>(null);
   const [GermanBeerValue, setGermanBeerValue] = useState<number | null>(null);
   const [orderResponseData, setOrderResponseData] = useState<any>(null);
   const [reset, setReset] = useState<boolean>(false);
+
+  // const handleBreadChange = (input: (number | null)[]) => {
+  //   const updatedInput = input.slice(0, 7);
+  //   while (updatedInput.length < 7) {
+  //     updatedInput.push(null);
+  //   }
+  //   setBreadCounts(updatedInput);
+  // }
+
+  const handleBreadChange = (input: (number | null)[]) => {
+    setBreadCounts(input)
+  }
+
+  // React.useEffect(() => {
+  //       console.log("breadCounts: ", breadCounts);
+  //   },[breadCounts])
 
   const handleVegetablesChange = (value: number | null) => {
     setVegValue(value);
@@ -38,6 +56,7 @@ const App: React.FC = () => {
   };
 
   const clearValues = () => {
+    setBreadCounts(Array(7).fill(null))
     setVegValue(null);
     setBelgianBeerValue(null);
     setDutchBeerValue(null);
@@ -50,9 +69,17 @@ const App: React.FC = () => {
     setReset(false);
   };
 
+
   return (
     <div className="App">
       <h1>Web Grocery Store</h1>
+      <div>
+        <BreadInput 
+          onChange={handleBreadChange}
+          reset={reset}
+          resetComplete={resetComplete}
+        />
+      </div>
       <div className="input-container">
         <Vegetables 
           onChange={handleVegetablesChange}
@@ -82,7 +109,8 @@ const App: React.FC = () => {
         />
       </div>
       <div className="submit-button">
-        <SubmitButton 
+        <SubmitButton
+          bread={breadCounts} 
           veg={vegValue} 
           belgianBeer={BelgianBeerValue} 
           dutchBeer={DutchBeerValue} 
@@ -92,6 +120,7 @@ const App: React.FC = () => {
       <div className="submit-button">
         <ResetButton
           onReset={clearValues}
+          bread={breadCounts}
           veg={vegValue}
           belgianBeer={BelgianBeerValue}
           dutchBeer={DutchBeerValue}

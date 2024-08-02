@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import axios from 'axios';
 
 interface SubmitButtonProps {
+    bread: (number | null)[],
     veg: number | null,
     belgianBeer: number | null,
     dutchBeer: number | null,
@@ -11,17 +12,18 @@ interface SubmitButtonProps {
     onOrderResponse: any
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ veg, belgianBeer, dutchBeer, germanBeer, onOrderResponse }) => {
+const SubmitButton: React.FC<SubmitButtonProps> = ({ bread, veg, belgianBeer, dutchBeer, germanBeer, onOrderResponse }) => {
 
     const [isDisabled, setDisabled] = useState<boolean>(true);
     useEffect(() => {
-        if (!veg && !belgianBeer && !dutchBeer && !germanBeer) {
+        if (bread.every(value => value === null) && !veg && !belgianBeer && !dutchBeer && !germanBeer) {
             setDisabled(true);
         }
         else {
             setDisabled(false);
+
         }
-    }, [veg, belgianBeer, dutchBeer, germanBeer]);
+    }, [bread, veg, belgianBeer, dutchBeer, germanBeer]);
 
     const handleSubmit = async () => {
         const priceDataSuccess = await setPriceData();
@@ -30,13 +32,18 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ veg, belgianBeer, dutchBeer
             return;
         }
 
+        // Change all null values to 0 before making the API call
+        const updatedBreadCounts = bread.map(value => value === null ? 0 : value);
+
         const orderData = {
-            bread: [1, 0, 0, 0, 0, 0, 0],
+            bread: updatedBreadCounts,
             vegetables: veg ?? 0,
             belgianBeers: belgianBeer ?? 0,
             dutchBeers: dutchBeer ?? 0,
             germanBeers: germanBeer ?? 0
         };
+
+        console.log("orderData: ", orderData);
 
         try {
             const orderResponse = await axios.post('http://localhost:8080/send_order', orderData);

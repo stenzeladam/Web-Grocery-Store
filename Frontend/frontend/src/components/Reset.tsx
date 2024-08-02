@@ -4,21 +4,22 @@ import Button from '@mui/material/Button';
 
 interface ResetButtonProps {
     onReset: () => void;
+    bread: (number | null)[],
     veg: number | null;
     belgianBeer: number | null;
     dutchBeer: number | null;
     germanBeer: number | null;
 }
 
-const ResetButton: React.FC<ResetButtonProps> = ({ onReset, veg, belgianBeer, dutchBeer, germanBeer }) => {
+const ResetButton: React.FC<ResetButtonProps> = ({ onReset, bread, veg, belgianBeer, dutchBeer, germanBeer }) => {
 
     const [isDisabled, setDisabled] = useState<boolean>(true);
 
     useEffect(() => {
-        if (veg || belgianBeer || dutchBeer || germanBeer) {
+        if (!bread.every(value => value === null) || veg || belgianBeer || dutchBeer || germanBeer) {
             setDisabled(false);
         }
-    }, [veg, belgianBeer, dutchBeer, germanBeer]);
+    }, [bread, veg, belgianBeer, dutchBeer, germanBeer]);
 
     const handleClick = () => {
         onReset();
