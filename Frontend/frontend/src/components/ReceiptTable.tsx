@@ -17,21 +17,29 @@ const ReceiptTable: React.FC<TableProps> = ({ orderData }) => {
 
   useEffect(() => {
     setRows(orderData ?? []);
+    console.log(orderData);
   }, [orderData]);
 
   const formatQuantity = (quantity: number, itemName: string) => {
-    if (itemName === "Vegetables") {
+    if (itemName.includes("Bread")) {
+      if (quantity === 1) {
+        return `${quantity} piece of bread`;
+      }
+      return `${quantity} pieces of bread`;
+    }
+    else if (itemName.includes("Vegetables")) {
       if (quantity < 1000) {
         return `${quantity.toFixed(2)} grams`;
-      } else {
-        return `${(quantity / 1000).toFixed(3)} kg`;
-      }
-    } else if (itemName === "Belgian Beer Bottle" || itemName === "Dutch Beer Bottle" || itemName === "German Beer Bottle") {
+      } 
+      return `${(quantity / 1000).toFixed(3)} kg`;
+    } 
+    else if (itemName.includes("Beer Bottle")) {
       if (quantity === 1) {
         return `${quantity} Bottle`;
       }
       return `${quantity} Bottles`;
-    } else if (itemName === "6-Pack of Belgian Beer" || itemName === "6-Pack of Dutch Beer" || itemName === "6-Pack of German Beer") {
+    } 
+    else if (itemName.includes("6-Pack")) {
       if (quantity === 1) {
         return `${quantity} Pack`;
       }
@@ -43,11 +51,16 @@ const ReceiptTable: React.FC<TableProps> = ({ orderData }) => {
   const formatUnitPrice = (price: number, itemName: string) => {
     let priceStr = price.toFixed(2).toString();
     priceStr = priceStr.replace('.', ',');
-    if (itemName === "Vegetables") {
+    if (itemName.includes("Bread")) {
+      return `\u20AC ${priceStr} per piece of bread`
+    }
+    else if (itemName === "Vegetables") {
       return `\u20AC ${priceStr} per 100.0 grams`;
-    } else if (itemName === "Belgian Beer Bottle" || itemName === "Dutch Beer Bottle" || itemName === "German Beer Bottle") {
+    } 
+    else if (itemName.includes("Beer Bottle")) {
       return `\u20AC ${priceStr} per Bottle`;
-    } else if (itemName === "6-Pack of Belgian Beer" || itemName === "6-Pack of Dutch Beer" || itemName === "6-Pack of German Beer") {
+    } 
+    else if (itemName.includes("6-Pack")) {
       return `\u20AC ${priceStr} per Pack`;
     }
     return "";

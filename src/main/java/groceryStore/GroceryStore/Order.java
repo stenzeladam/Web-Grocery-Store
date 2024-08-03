@@ -1,7 +1,5 @@
 package groceryStore.GroceryStore;
 
-import org.apache.tomcat.websocket.WsIOException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -77,6 +75,7 @@ public class Order {
             Receipt.addAll(this.evaluateBeers());
         }
 
+        @SuppressWarnings("MismatchedReadAndWriteOfArray")
         int[] zeros = new int[7];
         if (!Arrays.equals(this.bread, zeros)) { // Only check if bread is not [0, 0, 0, 0, 0, 0, 0]
             Receipt.addAll(this.evaluateBread());
@@ -208,6 +207,13 @@ public class Order {
         // Bread that is 3, 4, or 5 days old is "buy 1, get 1 free" aka "buy 1, take 2". Call this discount one.
         // Bread that is 6 days old is "buy 1, get 2 free" aka "buy 1, take 3". Call this discount two.
         // For simplicity's sake, assume that 6 day old bread cannot be included in the "buy 1, get 1 free" discount
+
+        // Alternatively, I think it would be much simpler and intuitive if the rule of "buy 1, get 1 free" simply meant
+        // the unit price was half off, and that is how you would get 2 pieces for the price of one. Similar logic would
+        // work for "buy 1, get 2 free" where the unit price would be  1/3 of the non-discounted price, and that is how
+        // 3 pieces of bread can be bought for the price of one. This would make it easy to include both types of
+        // bread discounts in the same order, but this is not how the requirement in the assignment is worded, so the
+        // following discount logic should stand.
 
         // Change these to change the number of free bread pieces per discount. The number of free pieces will be n-1
         // Ex: numDiscountOne = 2 because "buy 1, get 1 free" is a total of 2

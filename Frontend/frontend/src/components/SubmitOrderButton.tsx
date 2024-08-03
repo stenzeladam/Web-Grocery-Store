@@ -43,7 +43,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ bread, veg, belgianBeer, du
             germanBeers: germanBeer ?? 0
         };
 
-        console.log("orderData: ", orderData);
+        //console.log("orderData: ", orderData);
 
         try {
             const orderResponse = await axios.post('http://localhost:8080/send_order', orderData);
