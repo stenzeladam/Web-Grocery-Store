@@ -65,7 +65,7 @@ public class Prices {
     }
 
     // Idea: could create a method for currency conversions from Euros. There are APIs for this that use current
-    // exchange rates in real time. Interesting idea that could be handled in this class, but outside the
+    // exchange rates in real time.  Interesting idea that could be handled in this class, but outside the
     // requirements for this assignment. It would require handling currencies that have more than two decimal places.
 
     // Get method for prices, but ensures that Prices instance is not null before being accessed
