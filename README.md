@@ -25,9 +25,9 @@ Unit tests for the backend can be found in the tests folder, because "trust me b
 - **User Interface:** A simple and responsive frontend built with React and Material-UI.
 
 ## Prerequisites
-- Java 22.0.2 (OpenJDK)
+- Java 22.0.2: https://www.oracle.com/java/technologies/downloads/?er=221886
 - Node.js and npm (for the frontend only)
-- Maven
+- Maven 3.9.8: https://maven.apache.org/download.cgi
 
 ## Installation
 
@@ -39,7 +39,6 @@ git clone https://github.com/yourusername/Web-Grocery-Store.git
 cd Web-Grocery-Store
 ```
 2. Build the project using Maven:
-
 ```bash
 mvn clean install
 ```
@@ -47,7 +46,8 @@ mvn clean install
 ```bash
 mvn spring-boot:run
 ```
-4. The `main` method is in GroceryStoreApplication.java as your entry point into the application. Run this class/file to start the backend. If not using a front end, you can make API calls (with a tool such as Postman) to get an order using `http://localhost:8080/send_order` and sending a JSON object with the order details in the body. Go to [API Endpoints](#api-endpoints) for an example on how to send an order as an object.
+4. Alternatively you can use an IDE. The `main` method is in GroceryStoreApplication.java as your entry point into the application. Run this class/file to start the backend.
+5. If not using a front end, you can make API calls (with a tool such as Postman) to get an order using `http://localhost:8080/send_order` and sending a JSON object with the order details in the body. Go to [API Endpoints](#api-endpoints) for an example on how to send an order as an object.
 
 ### Frontend (Optional)
 1. Navigate to the `frontend` directory:
@@ -129,13 +129,6 @@ The main application component, containing the state and handlers for the order 
 ```bash
 mvn test
 ```
-### Frontend
-1. Navigate to the `frontend` directory.
-2. Run the tests using npm:
-```bash
-npm test
-```
-
 ## Project Structure
 
 ### Backend
