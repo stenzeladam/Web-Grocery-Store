@@ -47,8 +47,9 @@ mvn clean install
 ```bash
 mvn spring-boot:run
 ```
+4. The `main` method is in GroceryStoreApplication.java as your entry point into the application. Run this class/file to start the backend. If not using a front end, you can make API calls (with a tool such as Postman) to get an order using `http://localhost:8080/send_order` and sending a JSON object with the order details in the body. Go to #api-endpoints for an example on how to send an order as an object.
 
-## Frontend
+### Frontend (Optional)
 1. Navigate to the `frontend` directory:
 ```bash
 cd frontend
@@ -74,7 +75,7 @@ npm start
 ### Set Prices Example
 - **URL:** `/set_Prices`
 - **Method:** `POST`
-- **Request Body:**
+- **Request Body (Raw JSON):**
   ```json
   {
     "BREAD_PRICE": 1.00,
@@ -89,16 +90,17 @@ npm start
 ### Create Order Example
 - **URL:** `/send_order`
 - **Method:** `POST`
-- **Request Body:**
+- **Request Body (Raw JSON):**
   ```json
   {
-    "bread": [1, 0, 0, 3, 3, 4, 4],
+    "bread": [1, 0, 0, 12, 9, 2, 24],
     "vegetables": 0,
     "belgianBeers": 0,
     "dutchBeers": 6,
     "germanBeers": 7
   }
   ```
+  Note: for the `bread` array, the values represent the quantity of bread pieces, and their index number is the how many days old the piece(s) of bread are. In this example, there is 1 piece of bread that is 0 days old, 12 pieces of bread that are 3 days old, 9 pieces of bread that are 4 days old, 2 pieces of bread that are 5 days old, and 24 pieces of bread that are 6 days old. These values in the array must be integers. The values for `belgianBeers`, `dutchBeers`, and `germanBeers` must be integers, and the value for `vegetables` may have a decimal. 
 - **Response**: A list of items with their quantities, unit prices, total prices, and applied discounts.
 
 ## Frontend Components
