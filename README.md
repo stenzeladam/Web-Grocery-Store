@@ -34,12 +34,8 @@ Unit tests for the backend can be found in the tests folder, because "trust me b
 ## Installation
 
 ### Backend
-1. Clone the repository:
+1. Clone the repository and navigate to the project folder in your terminal.
 
-```bash
-git clone https://github.com/yourusername/Web-Grocery-Store.git
-cd Web-Grocery-Store
-```
 2. Build the project using Maven:
 ```bash
 mvn clean install
