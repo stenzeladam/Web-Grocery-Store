@@ -1,7 +1,7 @@
 # Grocery Store Application
 
 This project is a coding assignment that creates web-based grocery store application that allows users to place orders for bread, vegetables, and various types of beers. The application is built using Spring Boot for the backend.
-A frontend was optional, but I decided to do one anyways. It is called "Web-Grocery-Store" afterall, so I thought it'd make sense to make a web-browser based frontend.
+A frontend was optional, but I decided to do one anyways. It is called "Web-Grocery-Store" after all, so I thought it'd make sense to make a web-browser based frontend.
 
 Per the assignment requirements, the backend will work with just Java installed on your machine - nothing fancy needed in addition.
 The instructions were to keep it simple, so I tried to keep the backend logic straightforward while allowing for flexibility for potential changing requirements in the future.
