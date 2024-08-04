@@ -123,8 +123,12 @@ The main application component, containing the state and handlers for the order 
 ## Running Tests
 
 ### Backend
-1. Navigate to the project root directory.
-2. Run the tests using Maven:
+1. Navigate to the backend folder where pom.xml is located.
+2. Run mvn clean install if you haven't already:
+```bash
+mvn clean install
+```
+4. Run the tests using Maven:
 ```bash
 mvn test
 ```
