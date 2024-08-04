@@ -26,8 +26,10 @@ Unit tests for the backend can be found in the tests folder, because "trust me b
 
 ## Prerequisites
 - Java 22.0.2: https://www.oracle.com/java/technologies/downloads/?er=221886
-- Node.js and npm (for the frontend only)
 - Maven 3.9.8: https://maven.apache.org/download.cgi
+- Node.js (for the frontend only): https://nodejs.org/en and
+- npm (for the frontend only): https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
 
 ## Installation
 
@@ -46,7 +48,7 @@ mvn clean install
 ```bash
 mvn spring-boot:run
 ```
-4. Alternatively you can use an IDE. The `main` method is in GroceryStoreApplication.java as your entry point into the application. Run this class/file to start the backend.
+4. Alternatively you can use an IDE. The `main` method is in GroceryStoreApplication.java as your entry point into the application. Run this class/file to start the backend. From the IDE, you can also run the tests by navigating to src/test/java/groceryStore.GroceryStore and run the test files.
 5. If not using a front end, you can make API calls (with a tool such as Postman) to get an order using `http://localhost:8080/send_order` and sending a JSON object with the order details in the body. Go to [API Endpoints](#api-endpoints) for an example on how to send an order as an object.
 
 ### Frontend (Optional)
@@ -73,6 +75,7 @@ npm start
 ## API Endpoints
 
 ### Set Prices Example
+- **Call this API method first**: At least once to create a Price object to use for the rest of the application. There will only ever be one Price object instance. The following prices in the example are the default prices as specified in the assignment documentation.
 - **URL:** `/set_Prices`
 - **Method:** `POST`
 - **Request Body (Raw JSON):**
