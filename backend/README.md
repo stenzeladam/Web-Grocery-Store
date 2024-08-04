@@ -27,19 +27,15 @@ Unit tests for the backend can be found in the tests folder, because "trust me b
 ## Prerequisites
 - Java 22.0.2: https://www.oracle.com/java/technologies/downloads/?er=221886
 - Maven 3.9.8: https://maven.apache.org/download.cgi
-- Node.js (for the frontend only): https://nodejs.org/en and
+- Node.js (for the frontend only): https://nodejs.org/en
 - npm (for the frontend only): https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
 
 ## Installation
 
 ### Backend
-1. Clone the repository:
+1. Clone the repository and navigate to the project folder in your terminal.
 
-```bash
-git clone https://github.com/yourusername/Web-Grocery-Store.git
-cd Web-Grocery-Store
-```
 2. Build the project using Maven:
 ```bash
 mvn clean install
