@@ -17,7 +17,7 @@ const ReceiptTable: React.FC<TableProps> = ({ orderData }) => {
 
   useEffect(() => {
     setRows(orderData ?? []);
-    console.log(orderData);
+    //console.log(orderData);
   }, [orderData]);
 
   const formatQuantity = (quantity: number, itemName: string) => {
