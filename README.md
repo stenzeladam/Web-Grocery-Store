@@ -44,7 +44,7 @@ mvn clean install
 ```bash
 mvn spring-boot:run
 ```
-4. Alternatively you can use an IDE. The `main` method is in GroceryStoreApplication.java as your entry point into the application. Run this class/file to start the backend. From the IDE, you can also run the tests by navigating to the backend folder's src folder, then src/test/java/groceryStore.GroceryStore and run the test files.
+4. Alternatively you can use an IDE. The `main` method is in GroceryStoreApplication.java as your entry point into the application. Run this class/file to start the backend. From the IDE, you can also run the tests by navigating to the backend folder's src folder, then src/java/groceryStore.GroceryStore and run the test files.
 5. If not using a front end, you can make API calls (with a tool such as Postman) to get an order using `http://localhost:8080/send_order` and sending a JSON object with the order details in the body. Go to [API Endpoints](#api-endpoints) for an example on how to send an order as an object.
 
 ### Frontend (Optional)
@@ -136,7 +136,7 @@ mvn test
 
 ### Backend
 
-- ### src/main/java/groceryStore/GroceryStore
+- ### src/main/java/groceryStore.GroceryStore
   - **GroceryStoreApplication.java:** Main application class.
   - **GroceryStoreController.java:** REST controller for handling requests.
   - **Prices.java:** Singleton class for managing item prices.
