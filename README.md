@@ -34,7 +34,7 @@ Unit tests for the backend can be found in the tests folder, because "trust me b
 ## Installation
 
 ### Backend
-1. Clone the repository and navigate to the project folder in your terminal.
+1. Clone the repository and navigate to the backend folder in your terminal.
 
 2. Build the project using Maven:
 ```bash
@@ -44,7 +44,7 @@ mvn clean install
 ```bash
 mvn spring-boot:run
 ```
-4. Alternatively you can use an IDE. The `main` method is in GroceryStoreApplication.java as your entry point into the application. Run this class/file to start the backend. From the IDE, you can also run the tests by navigating to src/test/java/groceryStore.GroceryStore and run the test files.
+4. Alternatively you can use an IDE. The `main` method is in GroceryStoreApplication.java as your entry point into the application. Run this class/file to start the backend. From the IDE, you can also run the tests by navigating to the backend folder's src folder, then src/test/java/groceryStore.GroceryStore and run the test files.
 5. If not using a front end, you can make API calls (with a tool such as Postman) to get an order using `http://localhost:8080/send_order` and sending a JSON object with the order details in the body. Go to [API Endpoints](#api-endpoints) for an example on how to send an order as an object.
 
 ### Frontend (Optional)
