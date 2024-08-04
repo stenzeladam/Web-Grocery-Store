@@ -71,7 +71,7 @@ npm start
 
 ## API Endpoints
 
-### Set Prices
+### Set Prices Example
 - **URL:** `/set_Prices`
 - **Method:** `POST`
 - **Request Body:**
@@ -86,7 +86,7 @@ npm start
   ```
 - **Response**: The updated price list.
 
-### Create Order
+### Create Order Example
 - **URL:** `/send_order`
 - **Method:** `POST`
 - **Request Body:**
