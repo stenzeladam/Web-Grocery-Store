@@ -21,19 +21,19 @@ public class BeerEvaluator {
         ArrayList<Item> beerReceipt = new ArrayList<>();
         int n = 6; // set the number of bottles to define a pack
 
+        double BelgianBottlePrice = Prices.getInstance().getBELGIAN_BEERS_PRICE();
+        double Belgian_n_PackDiscount = 33.3333; // ~33.3333...%
+
+        if (belgianBeers > 0) {
+            beerReceipt.addAll(addBeerTypeToReceipt(n, belgianBeers, "Belgian", BelgianBottlePrice, Belgian_n_PackDiscount));
+        }
+
         double DutchBottlePrice = Prices.getInstance().getDUTCH_BEERS_PRICE();
         double Dutch_n_PackDiscount = 33.3333; // ~33.3333...%
 
         // No need to add item to receipt if not on order
         if (dutchBeers > 0) {
             beerReceipt.addAll(addBeerTypeToReceipt(n, dutchBeers, "Dutch", DutchBottlePrice, Dutch_n_PackDiscount));
-        }
-
-        double BelgianBottlePrice = Prices.getInstance().getBELGIAN_BEERS_PRICE();
-        double Belgian_n_PackDiscount = 33.3333; // ~33.3333...%
-
-        if (belgianBeers > 0) {
-            beerReceipt.addAll(addBeerTypeToReceipt(n, belgianBeers, "Belgian", BelgianBottlePrice, Belgian_n_PackDiscount));
         }
 
         double GermanBottlePrice = Prices.getInstance().getGERMAN_BEERS_PRICE();
