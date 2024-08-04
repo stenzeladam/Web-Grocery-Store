@@ -72,7 +72,7 @@ npm start
 
 ### Set Prices Example
 - **Call this API method first**: At least once to create a Price object to use for the rest of the application. There will only ever be one Price object instance. The following prices in the example are the default prices as specified in the assignment documentation.
-- **URL:** `/set_Prices`
+- **URL:** `/set_prices`
 - **Method:** `POST`
 - **Request Body (Raw JSON):**
   ```json
