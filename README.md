@@ -191,14 +191,17 @@ mvn test
 ### Backend
 
 - ### src/main/java/groceryStore.GroceryStore
+  - **BeerEvaluator.java:** Helper class for evaluating beer orders.
+  - **BreadEvaluator.java:** Helper class for evaluating bread orders.
+  - **Discounts.java:** Helper class that manages which discounts are active.
+  - **DiscountSummary.java:** Class that creates an object containing all of the current discount information.
   - **GroceryStoreApplication.java:** Main application class.
   - **GroceryStoreController.java:** REST controller for handling requests.
-  - **Prices.java:** Singleton class for managing item prices.
-  - **Order.java:** Class representing an order.
   - **Item.java:** Class representing an item in the order.
-  - **BreadEvaluator.java:** Helper class for evaluating bread orders.
+  - **Order.java:** Class representing an order.
+  - **Prices.java:** Singleton class for managing item prices.
+  - **VegetableDiscounts.java:** Helper class for setting vegetable discount rules.
   - **VegetableEvaluator.java:** Helper class for evaluating vegetable orders.
-  - **BeerEvaluator.java:** Helper class for evaluating beer orders.
   - **WebConfig.java:** Configuration class for CORS settings.
 
 ### Frontend
