@@ -11,6 +11,9 @@ public class BreadEvaluator {
         // There is no discount for bread that is 0, 1, or 2 days old. Those pieces of bread will always be full price
         int dayBreadDiscountBegins = 3;
         int dayBreadDiscountTwoBegins = 6;
+        if (!Discounts.isBreadDiscount()) {
+            dayBreadDiscountBegins = bread.length;
+        }
 
         // Evaluate the bread with no discounts
         for (int i = 0; i < dayBreadDiscountBegins; i++) {
@@ -40,8 +43,8 @@ public class BreadEvaluator {
         // Change these to change the number of free bread pieces per discount. The number of free pieces will be n-1
         // Ex: numDiscountOne = 2 because "buy 1, get 1 free" is a total of 2
         // Ex: numDiscountTwo = 3 because "buy 1, get 2 free" is a total of 3
-        int numDiscountOne = 2; // Buy 1, get 1 free
-        int numDiscountTwo = 3; // Buy 1, get 2 free
+        int numDiscountOne = Discounts.getBreadDiscountOne(); // if this equals 2, then "Buy 1, get 1 free"
+        int numDiscountTwo = Discounts.getBreadDiscountTwo(); // if this equals 3, then "Buy 1, get 2 free"
 
         // Buy 1, get 1 free discount for bread that is 3, 4, and/or 5 days old
         int totalBreadDiscountOne = 0;

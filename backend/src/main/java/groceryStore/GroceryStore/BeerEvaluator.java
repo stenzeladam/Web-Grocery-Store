@@ -22,14 +22,28 @@ public class BeerEvaluator {
         int n = 6; // set the number of bottles to define a pack
 
         double BelgianBottlePrice = Prices.getInstance().getBELGIAN_BEERS_PRICE();
-        double Belgian_n_PackDiscount = 33.3333; // ~33.3333...%
+
+        double Belgian_n_PackDiscount = 0;
+        if (Discounts.isBelgianBeerDiscountActive()) {
+            Belgian_n_PackDiscount = Discounts.getBelgianBeerDiscountPercent();
+        }
+        else {
+            Belgian_n_PackDiscount = 0;
+        }
 
         if (belgianBeers > 0) {
             beerReceipt.addAll(addBeerTypeToReceipt(n, belgianBeers, "Belgian", BelgianBottlePrice, Belgian_n_PackDiscount));
         }
 
         double DutchBottlePrice = Prices.getInstance().getDUTCH_BEERS_PRICE();
-        double Dutch_n_PackDiscount = 33.3333; // ~33.3333...%
+
+        double Dutch_n_PackDiscount = 0;
+        if (Discounts.isDutchBeerDiscountActive()) {
+            Dutch_n_PackDiscount = Discounts.getDutchBeerDiscountPercent();
+        }
+        else {
+            Dutch_n_PackDiscount = 0;
+        }
 
         // No need to add item to receipt if not on order
         if (dutchBeers > 0) {
@@ -37,7 +51,14 @@ public class BeerEvaluator {
         }
 
         double GermanBottlePrice = Prices.getInstance().getGERMAN_BEERS_PRICE();
-        double German_n_PackDiscount = 33.3333; // ~33.3333...%
+
+        double German_n_PackDiscount = 0;
+        if (Discounts.isGermanBeerDiscountActive()) {
+            German_n_PackDiscount = Discounts.getGermanBeerDiscountPercent();
+        }
+        else {
+            German_n_PackDiscount = 0;
+        }
 
         if (germanBeers > 0) {
             beerReceipt.addAll(addBeerTypeToReceipt(n, germanBeers, "German", GermanBottlePrice, German_n_PackDiscount));

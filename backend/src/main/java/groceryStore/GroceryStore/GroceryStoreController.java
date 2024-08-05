@@ -24,7 +24,15 @@ public class GroceryStoreController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/get_prices")
     public static Prices getPrices() {
+        // returns the current prices
         return Prices.getInstance();
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/get_discounts")
+    public static DiscountSummary getDiscounts() {
+        // returns the current discount rules
+        return Discounts.getDiscountSummary();
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

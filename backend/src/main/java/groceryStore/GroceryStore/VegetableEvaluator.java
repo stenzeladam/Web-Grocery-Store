@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-@SuppressWarnings("ForLoopReplaceableByForEach")
 public class VegetableEvaluator {
 
     public Item evaluateVeg(double vegetables, double vegPrice) {

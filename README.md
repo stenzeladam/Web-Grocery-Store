@@ -44,7 +44,7 @@ mvn clean install
 ```bash
 mvn spring-boot:run
 ```
-4. Alternatively you can use an IDE. The `main` method is in GroceryStoreApplication.java as your entry point into the application. Run this class/file to start the backend. From the IDE, you can also run the tests by navigating to the backend folder's src folder, then src/java/groceryStore.GroceryStore and run the test files.
+4. Alternatively you can use an IDE. The `main` method is in GroceryStoreApplication.java as your entry point into the application. Run this class/file to start the backend. From the IDE, you can also run the tests by navigating to the backend folder's src folder, then src/test/java/groceryStore.GroceryStore and run the test files.
 5. If not using a front end, you can make API calls (with a tool such as Postman) to get an order using `http://localhost:8080/send_order` and sending a JSON object with the order details in the body. Go to [API Endpoints](#api-endpoints) for an example on how to send an order as an object.
 
 ### Frontend (Optional)
@@ -84,7 +84,61 @@ npm start
     "GERMAN_BEERS_PRICE": 1.00
   }
   ```
-- **Response**: The updated price list.
+- **Response**: The updated price list after being set.
+
+### Get Prices Example
+- **URL:** `/get_prices`
+- **Method:** `GET`
+- **Request Body:** None
+- **Response:** The current price list. Example:
+```json
+{
+    "bread_PRICE": 1.0,
+    "german_BEERS_PRICE": 1.0,
+    "dutch_BEERS_PRICE": 0.5,
+    "vegetables_PRICE": 1.0,
+    "belgian_BEERS_PRICE": 0.75
+}
+```
+
+### Get Discounts Example
+- **URL:** `/get_discounts`
+- **Method:** `GET`
+- **Request Body:** None
+- **Response:** The current discount information. Example:
+```json
+{
+    "breadDiscountActive": true,
+    "breadDiscountOne": 2,
+    "breadDiscountTwo": 3,
+    "vegetablesDiscountActive": true,
+    "vegDiscountRules": [
+        {
+            "bottomRange": 0.0,
+            "upperRange": 100.0,
+            "discountAmount": 5.0
+        },
+        {
+            "bottomRange": 100.0,
+            "upperRange": 500.0,
+            "discountAmount": 7.0
+        },
+        {
+            "bottomRange": 500.0,
+            "upperRange": 1.7976931348623157E308,
+            "discountAmount": 10.0
+        }
+    ],
+    "belgianBeerDiscountActive": true,
+    "belgianBeerDiscountPercent": 33.3333,
+    "dutchBeerDiscountActive": true,
+    "dutchBeerDiscountPercent": 33.3333,
+    "germanBeerDiscountActive": true,
+    "germanBeerDiscountPercent": 33.3333,
+    "breadDiscountOneMessage": "Bread Discount One: Buy 1, get 1 free",
+    "breadDiscountTwoMessage": "Bread Discount Two: Buy 1, get 2 free"
+}
+```
 
 ### Create Order Example
 - **URL:** `/send_order`
