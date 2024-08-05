@@ -1,9 +1,6 @@
 package groceryStore.GroceryStore;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -16,11 +13,17 @@ public class GroceryStoreController {
     // this assignment
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/set_Prices")
+    @PostMapping("/set_prices")
     public static Prices setPrices(@RequestBody Prices newPrices) {
         Prices.setInstance(newPrices.getBREAD_PRICE(), newPrices.getVEGETABLES_PRICE(),
                     newPrices.getBELGIAN_BEERS_PRICE(), newPrices.getDUTCH_BEERS_PRICE(),
                     newPrices.getGERMAN_BEERS_PRICE());
+        return Prices.getInstance();
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/get_prices")
+    public static Prices getPrices() {
         return Prices.getInstance();
     }
 

@@ -179,7 +179,7 @@ class GroceryStoreControllerTest {
 
                 .andExpect(jsonPath("$[3].itemName", is("Vegetables")))
                 .andExpect(jsonPath("$[3].quantity", is(1234.46)))
-                .andExpect(jsonPath("$[3].discountRule", is("Over 500.0 grams: 10% Off")))
+                .andExpect(jsonPath("$[3].discountRule", is("Over 500.0 grams: 10.0% Off")))
                 .andExpect(jsonPath("$[3].totalItemPrice", is(11.11)))
                 .andExpect(jsonPath("$[3].unitPrice", is(1.0)))
                 .andExpect(jsonPath("$[3].formattedTotalItemPrice", is("11.11")))
@@ -277,7 +277,7 @@ class GroceryStoreControllerTest {
 
                 .andExpect(jsonPath("$[5].itemName", is("Vegetables")))
                 .andExpect(jsonPath("$[5].quantity", is(8910.11)))
-                .andExpect(jsonPath("$[5].discountRule", is("Over 500.0 grams: 10% Off")))
+                .andExpect(jsonPath("$[5].discountRule", is("Over 500.0 grams: 10.0% Off")))
                 .andExpect(jsonPath("$[5].totalItemPrice", is(80.19)))
                 .andExpect(jsonPath("$[5].unitPrice", is(1.0)))
                 .andExpect(jsonPath("$[5].formattedTotalItemPrice", is("80.19")))

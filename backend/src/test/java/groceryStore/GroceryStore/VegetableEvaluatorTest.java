@@ -53,7 +53,7 @@ class VegetableEvaluatorTest {
         Item result = evaluator.evaluateVeg(50.0, 2.00);
         assertEquals(50.0, result.getQuantity());
         assertEquals("Vegetables", result.getItemName());
-        assertEquals("Between 0.0 and 100.0 grams: 5% Off", result.getDiscountRule());
+        assertEquals("Between 0.0 and 100.0 grams: 5.0% Off", result.getDiscountRule());
         assertEquals(2.00, result.getUnitPrice());
         assertEquals(0.95, result.getTotalItemPrice());
     }
@@ -64,7 +64,7 @@ class VegetableEvaluatorTest {
         Item result = evaluator.evaluateVeg(250.0, 2.00);
         assertEquals(250.0, result.getQuantity());
         assertEquals("Vegetables", result.getItemName());
-        assertEquals("Between 100.0 and 500.0 grams: 7% Off", result.getDiscountRule());
+        assertEquals("Between 100.0 and 500.0 grams: 7.0% Off", result.getDiscountRule());
         assertEquals(2.00, result.getUnitPrice());
         assertEquals(4.65, result.getTotalItemPrice());
     }
@@ -75,7 +75,7 @@ class VegetableEvaluatorTest {
         Item result = evaluator.evaluateVeg(600.0, 2.00);
         assertEquals(600.0, result.getQuantity());
         assertEquals("Vegetables", result.getItemName());
-        assertEquals("Over 500.0 grams: 10% Off", result.getDiscountRule());
+        assertEquals("Over 500.0 grams: 10.0% Off", result.getDiscountRule());
         assertEquals(2.00, result.getUnitPrice());
         assertEquals(10.80, result.getTotalItemPrice());
     }
@@ -97,7 +97,7 @@ class VegetableEvaluatorTest {
         Item result = evaluator.evaluateVeg(0.0, 2.00);
         assertEquals(0.0, result.getQuantity());
         assertEquals("Vegetables", result.getItemName());
-        assertEquals("", result.getDiscountRule());
+        assertEquals("Between 0.0 and 100.0 grams: 5.0% Off", result.getDiscountRule());
         assertEquals(2.00, result.getUnitPrice());
         assertEquals(0.00, result.getTotalItemPrice());
     }
@@ -108,7 +108,7 @@ class VegetableEvaluatorTest {
         Item result = evaluator.evaluateVeg(100.0, 1000000.00);
         assertEquals(100.0, result.getQuantity());
         assertEquals("Vegetables", result.getItemName());
-        assertEquals("Between 100.0 and 500.0 grams: 7% Off", result.getDiscountRule());
+        assertEquals("Between 100.0 and 500.0 grams: 7.0% Off", result.getDiscountRule());
         assertEquals(1000000.00, result.getUnitPrice());
         assertEquals(930000.00, result.getTotalItemPrice());
     }
@@ -119,7 +119,7 @@ class VegetableEvaluatorTest {
         Item result = evaluator.evaluateVeg(100.0, 2.00);
         assertEquals(100.0, result.getQuantity());
         assertEquals("Vegetables", result.getItemName());
-        assertEquals("Between 100.0 and 500.0 grams: 7% Off", result.getDiscountRule());
+        assertEquals("Between 100.0 and 500.0 grams: 7.0% Off", result.getDiscountRule());
         assertEquals(2.00, result.getUnitPrice());
         assertEquals(1.86, result.getTotalItemPrice());
     }
@@ -130,7 +130,7 @@ class VegetableEvaluatorTest {
         Item result = evaluator.evaluateVeg(500.0, 2.00);
         assertEquals(500.0, result.getQuantity());
         assertEquals("Vegetables", result.getItemName());
-        assertEquals("Over 500.0 grams: 10% Off", result.getDiscountRule());
+        assertEquals("Over 500.0 grams: 10.0% Off", result.getDiscountRule());
         assertEquals(2.00, result.getUnitPrice());
         assertEquals(9.00, result.getTotalItemPrice());
     }
@@ -141,7 +141,7 @@ class VegetableEvaluatorTest {
         Item result = evaluator.evaluateVeg(1000000.0, 2.00);
         assertEquals(1000000.0, result.getQuantity());
         assertEquals("Vegetables", result.getItemName());
-        assertEquals("Over 500.0 grams: 10% Off", result.getDiscountRule());
+        assertEquals("Over 500.0 grams: 10.0% Off", result.getDiscountRule());
         assertEquals(2.00, result.getUnitPrice());
         assertEquals(18000.00, result.getTotalItemPrice());
     }
@@ -152,7 +152,7 @@ class VegetableEvaluatorTest {
         Item result = evaluator.evaluateVeg(99.5, 2.00);
         assertEquals(99.5, result.getQuantity());
         assertEquals("Vegetables", result.getItemName());
-        assertEquals("Between 0.0 and 100.0 grams: 5% Off", result.getDiscountRule());
+        assertEquals("Between 0.0 and 100.0 grams: 5.0% Off", result.getDiscountRule());
         assertEquals(2.00, result.getUnitPrice());
         assertEquals(1.89, result.getTotalItemPrice());
     }
@@ -163,7 +163,7 @@ class VegetableEvaluatorTest {
         Item result = evaluator.evaluateVeg(150.0, 3.1415);
         assertEquals(150.0, result.getQuantity());
         assertEquals("Vegetables", result.getItemName());
-        assertEquals("Between 100.0 and 500.0 grams: 7% Off", result.getDiscountRule());
+        assertEquals("Between 100.0 and 500.0 grams: 7.0% Off", result.getDiscountRule());
         assertEquals(3.14, result.getUnitPrice());
         assertEquals(4.38, result.getTotalItemPrice());
     }

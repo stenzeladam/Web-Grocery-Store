@@ -1,5 +1,10 @@
 package groceryStore.GroceryStore;
 
+import java.util.ArrayList;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+@SuppressWarnings("ForLoopReplaceableByForEach")
 public class VegetableEvaluator {
 
     public Item evaluateVeg(double vegetables, double vegPrice) {
@@ -7,22 +12,32 @@ public class VegetableEvaluator {
         //double vegPrice = Prices.getInstance().getVEGETABLES_PRICE();
         double vegTotalPrice = 0.0;
         String discountRule = "";
-        if (vegetables < 100.0 && vegetables > 0.0) { // apply 5% off
-            // Discount price is divided by 100 because the price is per 100g, and this.vegetables is per ~1.0 gram.
-            vegTotalPrice = vegetables * (applyPercentOffDiscount(5.0, vegPrice) / 100);
-            discountRule = "Between 0.0 and 100.0 grams: 5% Off";
+
+        ArrayList<VegetableDiscounts> vegetableDiscountRules = Discounts.getVegDiscountRules();
+        if (Discounts.isVegetablesDiscount()) {
+            for (int i = 0; i < vegetableDiscountRules.size(); i++) {
+                VegetableDiscounts rule = vegetableDiscountRules.get(i);
+                double ceiling = BigDecimal.valueOf(rule.getUpperRange()).setScale(1, RoundingMode.HALF_UP).doubleValue();
+                double floor = BigDecimal.valueOf(rule.getBottomRange()).setScale(1, RoundingMode.HALF_UP).doubleValue();
+
+                if (vegetables >= rule.getBottomRange() && (i == vegetableDiscountRules.size() - 1 || vegetables < rule.getUpperRange())) {
+                    double discountPercent = rule.getDiscountAmount();
+                    vegTotalPrice = vegetables * (applyPercentOffDiscount(discountPercent, vegPrice) / 100);
+
+                    if (i == vegetableDiscountRules.size() - 1) {
+                        // Last rule
+                        discountRule = "Over " + floor + " grams: " + discountPercent + "% Off";
+                    } else {
+                        discountRule = "Between " + floor + " and " + ceiling + " grams: " + discountPercent + "% Off";
+                    }
+                    break; // Rule found and applied, exit loop
+                }
+            }
         }
-        else if (vegetables >= 100.0 && vegetables < 500.0) { // apply 7% off
-            vegTotalPrice = vegetables * (applyPercentOffDiscount(7.0, vegPrice) / 100);
-            discountRule = "Between 100.0 and 500.0 grams: 7% Off";
+        else {
+            vegTotalPrice = vegetables * vegPrice;
         }
-        else if (vegetables >= 500.0) { // apply 10% off
-            vegTotalPrice = vegetables * (applyPercentOffDiscount(10.0, vegPrice) / 100);
-            discountRule = "Over 500.0 grams: 10% Off";
-        }
-        else if (vegetables < 0.0) { // Should never happen, but just in case. Maybe for potential returns in the future
-            vegTotalPrice = 0.0;
-        }
+
         return new Item(vegetables, "Vegetables", discountRule, vegPrice, vegTotalPrice);
     }
 
